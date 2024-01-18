@@ -2,7 +2,8 @@ import { createBrowserRouter } from "react-router-dom"
 import App from "../App"
 import About from "../pages/About"
 import Contact from "../pages/Contact"
-import { adminRoutes } from "./admin.routes"
+import { adminPaths } from "./admin.routes"
+import { routeGenerator } from "../utils/routeGenerator"
 
 const routers = createBrowserRouter([
     {
@@ -22,7 +23,7 @@ const routers = createBrowserRouter([
     {
         path: '/admin',
         element: <App />,
-        children: adminRoutes
+        children: routeGenerator(adminPaths)
     }
 ])
 
