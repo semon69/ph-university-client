@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 
 type TFormProps = {
-  onSubmit: (data: any) => void;
+  onSubmit: SubmitHandler<any>;
   children: React.ReactNode;
 };
 
@@ -17,4 +17,3 @@ const PHFrom = ({ onSubmit, children }: TFormProps) => {
 };
 
 export default PHFrom;
-
