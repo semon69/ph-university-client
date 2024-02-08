@@ -1,20 +1,22 @@
-import { Input } from "antd";
+import { Form, Input } from "antd";
 import { Controller } from "react-hook-form";
 
-type TPhInput ={
-    type: string;
-    name: string;
-    label: string
-}
+type TPhInput = {
+  type: string;
+  name: string;
+  label: string;
+};
 
 const PHInput = ({ type, name, label }: TPhInput) => {
   return (
     <div style={{ marginBottom: "1rem" }}>
-      {label ? label : null}
-
       <Controller
         name={name}
-        render={({ field }) => <Input {...field} type={type} id={name} />}
+        render={({ field }) => (
+          <Form.Item label={label}>
+            <Input {...field} type={type} id={name} />
+          </Form.Item>
+        )}
       />
     </div>
   );
