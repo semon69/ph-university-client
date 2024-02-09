@@ -1,7 +1,9 @@
+import PHInput from "../components/form/PHInput";
+
 const Register = () => {
   return (
     <div>
-      <h1>Hello from Register page</h1>
+      <PHInput name="name" label="Name" type="text" />
     </div>
   );
 };
