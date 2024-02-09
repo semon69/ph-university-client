@@ -91,7 +91,6 @@ const AcademicSemester = () => {
     _sorter,
     extra
   ) => {
-    console.log("params", filters, extra);
 
     if (extra.action === "filter") {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
