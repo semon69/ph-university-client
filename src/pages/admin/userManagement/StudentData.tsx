@@ -1,4 +1,11 @@
-import { Button, Space, Table, TableColumnsType, TableProps } from "antd";
+import {
+  Button,
+  Pagination,
+  Space,
+  Table,
+  TableColumnsType,
+  TableProps,
+} from "antd";
 import { useState } from "react";
 import { useGetStudentsQuery } from "../../../redux/features/Admin/userManagement.api";
 import { TStudent } from "../../../types/userManagement.types";
@@ -11,14 +18,13 @@ export type TTableData = Pick<
 const StudentData = () => {
   const [params, setParams] = useState([]);
   const [page, setPage] = useState(1);
+
   const { data: students, isFetching } = useGetStudentsQuery([
-    { name: "limit", value: 2 },
     { name: "page", value: page },
     ...params,
   ]);
 
-  console.log(students);
-
+  const metaData = students?.meta;
   const tableData = students?.data?.map(
     ({ _id, fullName, id, email, contactNo }) => ({
       key: _id,
@@ -83,12 +89,21 @@ const StudentData = () => {
   };
 
   return (
-    <Table
-      loading={isFetching}
-      columns={columns}
-      dataSource={tableData}
-      onChange={onChange}
-    />
+    <>
+      <Table
+        loading={isFetching}
+        columns={columns}
+        dataSource={tableData}
+        onChange={onChange}
+        pagination={false}
+      />
+      <Pagination
+        current={page}
+        onChange={(value) => setPage(value)}
+        pageSize={metaData?.limit}
+        total={metaData?.total}
+      />
+    </>
   );
 };
 
