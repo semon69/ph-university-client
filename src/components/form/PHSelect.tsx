@@ -5,9 +5,10 @@ type TProps = {
   label: string;
   name: string;
   options?: { value: string; label: string; disabled?: boolean }[];
+  disabled?: boolean;
 };
 
-const PHSelect = ({ label, name, options }: TProps) => {
+const PHSelect = ({ label, name, options, disabled }: TProps) => {
   return (
     <Controller
       name={name}
@@ -17,6 +18,7 @@ const PHSelect = ({ label, name, options }: TProps) => {
             style={{ width: "100%" }}
             {...field}
             options={options}
+            disabled={disabled}
           />
           {error && <small style={{color: 'red'}}>{error?.message}</small>}
         </Form.Item>
