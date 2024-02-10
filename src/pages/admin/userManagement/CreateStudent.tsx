@@ -7,12 +7,12 @@ import { bloodGroupOptions, genderOptions } from "../../../constant/global";
 import PHDatePicker from "../../../components/form/PHDatePicker";
 import {
   useGetAcademicDepartmentsQuery,
-  useGetAcademicFacultiesQuery,
   useGetAcademicSemestersQuery,
 } from "../../../redux/features/Admin/academnicManagement";
 import { useCreateStudentMutation } from "../../../redux/features/Admin/userManagement.api";
 
-const studentDummyData = {
+// eslint-disable-next-line react-refresh/only-export-components
+export const studentDumyData = {
   password: "student123",
   student: {
     name: {
