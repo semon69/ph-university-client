@@ -1,4 +1,4 @@
-import CreateCourse from "../pages/faculty/CreateCourse";
+import CreateCourse from "../pages/admin/courseManagement/CreateCourse";
 import FacultyDashboard from "../pages/faculty/FacultyDashboard";
 
 export const facultyPaths = [

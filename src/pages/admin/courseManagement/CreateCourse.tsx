@@ -1,7 +1,7 @@
 const CreateCourse = () => {
   return (
     <div>
-      <h1>Hello from offer course route</h1>
+      <h1>Hello from create course </h1>
     </div>
   );
 };
