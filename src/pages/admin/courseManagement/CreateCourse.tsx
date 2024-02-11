@@ -1,12 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { Button, Col, Flex } from "antd";
 import PHSelect from "../../../components/form/PHSelect";
 import PHInput from "../../../components/form/PHInput";
 import PHFrom from "../../../components/form/PHFrom";
-import { useGetAllCoursesQuery } from "../../../redux/features/Admin/courseManagement.api";
+import { useCreateCourseMutation, useGetAllCoursesQuery } from "../../../redux/features/Admin/courseManagement.api";
+import { toast } from "sonner";
+import { TResponse } from "../../../types/global.types";
 
 const CreateCourse = () => {
-  const { data: courses } = useGetAllCoursesQuery(undefined)
+  const [createCourse] = useCreateCourseMutation()
+  const { data: courses } = useGetAllCoursesQuery(undefined);
 
   const preRequisiteCoursesOptions = courses?.data?.map((item) => ({
     value: item?._id,
@@ -14,10 +18,12 @@ const CreateCourse = () => {
   }));
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    // const toastId = toast.loading("Creating...");
+    const toastId = toast.loading("Creating...");
 
     const courseData = {
       ...data,
+      code: Number(data.code),
+      credits: Number(data.credits),
       isDeleted: false,
       preRequisiteCourses: data?.preRequisiteCourses
         ? data?.preRequisiteCourses?.map((item: string) => ({
@@ -29,17 +35,17 @@ const CreateCourse = () => {
 
     console.log(courseData);
 
-    // try {
-    //   const res = (await createCourse(courseData)) as TResponse<any>;
-    //   console.log(res);
-    //   if (res.error) {
-    //     toast.error(res.error.data.message, { id: toastId });
-    //   } else {
-    //     toast.success("Semester created", { id: toastId });
-    //   }
-    // } catch (err) {
-    //   toast.error("Something went wrong", { id: toastId });
-    // }
+    try {
+      const res = (await createCourse(courseData)) as TResponse<any>;
+      console.log(res);
+      if (res.error) {
+        toast.error(res.error.data.message, { id: toastId });
+      } else {
+        toast.success("Semester created", { id: toastId });
+      }
+    } catch (err) {
+      toast.error("Something went wrong", { id: toastId });
+    }
   };
 
   return (
