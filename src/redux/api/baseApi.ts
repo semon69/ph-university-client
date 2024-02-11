@@ -28,6 +28,8 @@ const baseQueryWithRefreshToken = async (
 ) => {
   let result = await baseQuery(args, api, extraOptions);
 
+  console.log(result);
+
   if (result.error?.status === 404) {
     toast.error(result?.error?.data?.message);
   }
@@ -60,6 +62,7 @@ const baseQueryWithRefreshToken = async (
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
+  tagTypes: ["semester"],
   endpoints: () => ({
     // login: builder.mutation({
     //   query: (userInfo) => ({

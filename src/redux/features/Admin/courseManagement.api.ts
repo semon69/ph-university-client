@@ -1,46 +1,49 @@
+import { TSemester } from "../../../types/courseManagement.types";
+import { TQueryParams, TResponseRedux } from "../../../types/global.types";
 import { baseApi } from "../../api/baseApi";
 
 const courseManagementApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    // getAllRegisteredSemesters: builder.query({
-    //   query: (args) => {
-    //     const params = new URLSearchParams();
+    getAllRegisteredSemesters: builder.query({
+      query: (args) => {
+        const params = new URLSearchParams();
 
-    //     if (args) {
-    //       args.forEach((item: TQueryParam) => {
-    //         params.append(item.name, item.value as string);
-    //       });
-    //     }
+        if (args) {
+          args.forEach((item: TQueryParams) => {
+            params.append(item.name, item.value as string);
+          });
+        }
 
-    //     return {
-    //       url: "/semester-registrations",
-    //       method: "GET",
-    //       params: params,
-    //     };
-    //   },
-    //   providesTags: ["semester"],
-    //   transformResponse: (response: TResponseRedux<TSemester[]>) => {
-    //     return {
-    //       data: response.data,
-    //       meta: response.meta,
-    //     };
-    //   },
-    // }),
+        return {
+          url: "/semesterRegistrations",
+          method: "GET",
+          params: params,
+        };
+      },
+      transformResponse: (response: TResponseRedux<TSemester[]>) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
+      providesTags: ["semester"],
+    }),
     createRegisteredSemester: builder.mutation({
       query: (data) => ({
         url: "/semesterRegistrations/create-semester-regestration",
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["semester"],
     }),
-    // updateRegisteredSemester: builder.mutation({
-    //   query: (args) => ({
-    //     url: `/semester-registrations/${args.id}`,
-    //     method: "PATCH",
-    //     body: args.data,
-    //   }),
-    //   invalidatesTags: ["semester"],
-    // }),
+    updateRegisteredSemester: builder.mutation({
+      query: (args) => ({
+        url: `/semesterRegistrations/${args.id}`,
+        method: "PATCH",
+        body: args.data,
+      }),
+      invalidatesTags: ["semester"],
+    }),
     // getAllCourses: builder.query({
     //   query: (args) => {
     //     const params = new URLSearchParams();
@@ -84,4 +87,8 @@ const courseManagementApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useCreateRegisteredSemesterMutation } = courseManagementApi;
+export const {
+  useGetAllRegisteredSemestersQuery,
+  useCreateRegisteredSemesterMutation,
+  useUpdateRegisteredSemesterMutation,
+} = courseManagementApi;
