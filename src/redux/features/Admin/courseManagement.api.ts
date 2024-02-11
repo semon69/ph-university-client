@@ -1,4 +1,4 @@
-import { TSemester } from "../../../types/courseManagement.types";
+import { TCourse, TSemester } from "../../../types/courseManagement.types";
 import { TQueryParams, TResponseRedux } from "../../../types/global.types";
 import { baseApi } from "../../api/baseApi";
 
@@ -20,13 +20,13 @@ const courseManagementApi = baseApi.injectEndpoints({
           params: params,
         };
       },
+      providesTags: ["semester"],
       transformResponse: (response: TResponseRedux<TSemester[]>) => {
         return {
           data: response.data,
           meta: response.meta,
         };
       },
-      providesTags: ["semester"],
     }),
     createRegisteredSemester: builder.mutation({
       query: (data) => ({
@@ -44,31 +44,51 @@ const courseManagementApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["semester"],
     }),
-    // getAllCourses: builder.query({
-    //   query: (args) => {
-    //     const params = new URLSearchParams();
+    getAllCourses: builder.query({
+      query: (args) => {
+        const params = new URLSearchParams();
 
-    //     if (args) {
-    //       args.forEach((item: TQueryParam) => {
-    //         params.append(item.name, item.value as string);
-    //       });
-    //     }
+        if (args) {
+          args.forEach((item: TQueryParams) => {
+            params.append(item.name, item.value as string);
+          });
+        }
 
-    //     return {
-    //       url: "/courses",
-    //       method: "GET",
-    //       params: params,
-    //     };
-    //   },
-    //   providesTags: ["courses"],
-    //   transformResponse: (response: TResponseRedux<TCourse[]>) => {
-    //     return {
-    //       data: response.data,
-    //       meta: response.meta,
-    //     };
-    //   },
-    // }),
-    // addCourse: builder.mutation({
+        return {
+          url: "/courses",
+          method: "GET",
+          params: params,
+        };
+      },
+      providesTags: ["courses"],
+      transformResponse: (response: TResponseRedux<TCourse[]>) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
+    }),
+  }),
+});
+
+export const {
+  useGetAllRegisteredSemestersQuery,
+  useCreateRegisteredSemesterMutation,
+  useUpdateRegisteredSemesterMutation,
+  useGetAllCoursesQuery,
+} = courseManagementApi;
+
+
+
+
+
+
+
+
+
+
+
+   // addCourse: builder.mutation({
     //   query: (data) => ({
     //     url: `/courses/create-course`,
     //     method: "POST",
@@ -84,11 +104,3 @@ const courseManagementApi = baseApi.injectEndpoints({
     //   }),
     //   invalidatesTags: ["courses"],
     // }),
-  }),
-});
-
-export const {
-  useGetAllRegisteredSemestersQuery,
-  useCreateRegisteredSemesterMutation,
-  useUpdateRegisteredSemesterMutation,
-} = courseManagementApi;
