@@ -6,9 +6,12 @@ import PHSelect from "../../../components/form/PHSelect";
 import PHDatePicker from "../../../components/form/PHDatePicker";
 import PHInput from "../../../components/form/PHInput";
 import { semesterStatusOptions } from "../../../constant/semester";
+import { useCreateRegisteredSemesterMutation } from "../../../redux/features/Admin/courseManagement.api";
+import { TResponse } from "../../../types/global.types";
+import { toast } from "sonner";
 
 const SemesterRegistration = () => {
-  // const [addSemester] = useAddRegisteredSemesterMutation();
+  const [createSemester] = useCreateRegisteredSemesterMutation();
   const { data: academicSemester } = useGetAcademicSemestersQuery([
     { name: "sort", value: "year" },
   ]);
@@ -19,7 +22,7 @@ const SemesterRegistration = () => {
   }));
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    // const toastId = toast.loading("Creating...");
+    const toastId = toast.loading("Creating...");
 
     const semesterData = {
       ...data,
@@ -29,17 +32,18 @@ const SemesterRegistration = () => {
 
     console.log(semesterData);
 
-    // try {
-    //   const res = (await addSemester(semesterData)) as TResponse<any>;
-    //   console.log(res);
-    //   if (res.error) {
-    //     toast.error(res.error.data.message, { id: toastId });
-    //   } else {
-    //     toast.success("Semester created", { id: toastId });
-    //   }
-    // } catch (err) {
-    //   toast.error("Something went wrong", { id: toastId });
-    // }
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const res = (await createSemester(semesterData)) as TResponse<any>;
+      console.log(res);
+      if (res.error) {
+        toast.error(res.error.data.message, { id: toastId });
+      } else {
+        toast.success("Semester created", { id: toastId });
+      }
+    } catch (err) {
+      toast.error("Something went wrong", { id: toastId });
+    }
   };
 
   return (
